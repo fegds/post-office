@@ -1,0 +1,45 @@
+<!--
+<form class="form-compose">
+	<textarea class="form-control" rows="3"></textarea>
+	<label class="checkbox">
+		<input type="text" class="form-control" placeholder="Email address" autofocus>
+	</label>
+	<button class="btn btn-lg btn-primary btn-block" type="submit">send</button>
+</form>
+-->
+
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="to" class="col-lg-2 control-label">To</label>
+    <div class="col-lg-10">
+	<select multiple class="form-control" name="to" ng-model="mail.to" ng-options="to for to in tos" required>
+		<!--
+		<option value="{{to}}" ng-repeat="to in tos" ng-selected="true">{{to}}</option>
+-->
+	</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="imagePath" class="col-lg-2 control-label">Image Path</label>
+    <div class="col-lg-10">
+      <input type="text" name="imagePath" class="form-control" ng-model="mail.imagePath">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="subject" class="col-lg-2 control-label">Subject</label>
+    <div class="col-lg-10">
+      <input type="text" name="subject" class="form-control" ng-model="mail.subject">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="body" class="col-lg-2 control-label">Body</label>
+    <div class="col-lg-10">
+		<textarea class="form-control" rows="12" name="body" ng-model="mail.text" required></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <button type="submit" class="btn btn-default" ng-click="send(mail)">Send</button>
+    </div>
+  </div>
+</form>
