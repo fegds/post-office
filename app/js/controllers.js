@@ -51,29 +51,43 @@ angular.module('PO.controllers', [])
 .controller('ComposeCtrl', [ '$scope', '$http', 'Base64', 'log',
 	function ($scope, $http, Base64, log){
 
+		var sendList = JSON.parse(localStorage.getItem('send-list'));
+
 		$scope.tos = [
 			'fe_gds@163.com',
 			'lubenben@outlook.com'
 		];
 
-		$scope.mail = {
-			from: 'Test <f2e@gds.com>',
-			to: angular.copy($scope.tos),
-			subject: 'Subject [Test]'
-		};
+		if(sendList){
+			$scope.mail = sendList;
+		}else{
+			$scope.mail = {
+				from: 'Test <f2e@gds.com>',
+				to: angular.copy($scope.tos),
+				subject: 'Subject [Test]',
+				customTo: ''
+			};
+		}
 
 		$scope.send = function(mail){
 
 			var i,
 				to = [],
 				data = angular.copy(mail),
-				to_raw = data['to']
+				to_raw = data['to'],
+				customTo = $scope.mail.customTo.split(';')
 				;
+
+			to_raw = to_raw.concat(customTo);
 
 			for(i=0; i<to_raw.length; i++){
 				to.push('to=' + to_raw[i]);
 			}
 			delete data['to'];
+
+			localStorage.setItem('send-list', JSON.stringify($scope.mail));
+
+			data.html = data.html.replace(/<img([^>]*)\ssrc=(['"])(?:[^\2\/]*\/)*([^\2]+)\2/gi, "<img$1 src=$2" + data.imagePath + "$3$2");
 
 			$http.post(
 				'api-compose/' + '?' + to.join('&'),
